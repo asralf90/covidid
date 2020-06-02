@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -46,6 +46,13 @@ const useStyles = makeStyles((theme) => ({
 export default function Generator() {
   const classes = useStyles();
 
+  const [generator, setGenerator] = useState(false);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setGenerator(true);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -85,10 +92,11 @@ export default function Generator() {
             variant="contained"
             style={style}
             className={classes.submit}
+            onClick={handleClick}
           >
             Generate
           </Button>
-          <QRGenerator />
+          {generator ? <QRGenerator /> : null}
         </form>
       </div>
       <Box mt={8}>

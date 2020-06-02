@@ -48,7 +48,7 @@ export default function QRGenerator() {
         </CopyToClipboard>
         {/* {qrcode.copied ? <span style={{ color: "red" }}> Copied.</span> : null} */}
         {qrcode.copied ? (
-          <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Snackbar open={open} autoHideDuration={1000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
               ID Copied!
             </Alert>
@@ -56,7 +56,12 @@ export default function QRGenerator() {
         ) : null}
       </Typography>
       <div style={{ textAlign: "center" }}>
-        <QRCode value={`http://localhost:3000/${adminId}`} />
+        <QRCode
+          value={`http://localhost:3000/${adminId}`}
+          size={150}
+          bgColor={"#fff"}
+          fgColor={"#45046a"}
+        />
       </div>
     </div>
   );
