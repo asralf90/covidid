@@ -1,9 +1,9 @@
-import React, { useState, useContext, Fragment } from "react";
+import React, { useState, useMemo } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-
+import { addCustomer } from "../api/customer-api";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import PermContactCalendarIcon from "@material-ui/icons/PermContactCalendar";
@@ -46,20 +46,39 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CheckIn() {
   const classes = useStyles();
-  // const joindate = new Date();
-  // const [fullname, setFullname] = useState();
-  // const [phone, setPhone] = useState();
-  // const [address, setAddresss] = useState();
 
-  // const handleOnChange = (e) => {
-  //   if (e.target.name === "fullname") {
-  //     setFullname(e.target.value);
-  //   } else if (e.target.name === "phone") {
-  //     setPhoneNo(e.target.value);
-  //   } else if (e.target.name === "address") {
-  //     setAddress(e.target.value);
-  //   }
-  // };
+  const [fullname, setFullname] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const getId = () => {
+    const pathArray = window.location.pathname.split("/");
+    return pathArray[2];
+  };
+  const adminId = useMemo(() => getId(), []);
+
+  console.log(adminId);
+  const handleOnChange = (e) => {
+    if (e.target.name === "fullname") {
+      setFullname(e.target.value);
+    } else if (e.target.name === "phone") {
+      setPhone(e.target.value);
+    } else if (e.target.name === "address") {
+      setAddress(e.target.value);
+    }
+  };
+
+  const handleCheckIn = async (e) => {
+    e.preventDefault();
+
+    const res = await addCustomer({
+      fullname,
+      phone,
+      address,
+      adminId,
+    });
+
+    console.log(res);
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -83,6 +102,7 @@ export default function CheckIn() {
                 id="fullName"
                 label="Full Name"
                 autoFocus
+                onChange={handleOnChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -95,6 +115,7 @@ export default function CheckIn() {
                 type="tel"
                 name="phone"
                 autoComplete="phone"
+                onChange={handleOnChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -107,6 +128,7 @@ export default function CheckIn() {
                 type="text"
                 id="address"
                 autoComplete="address"
+                onChange={handleOnChange}
               />
             </Grid>
           </Grid>
@@ -116,6 +138,7 @@ export default function CheckIn() {
             variant="contained"
             style={style}
             className={classes.submit}
+            onClick={handleCheckIn}
           >
             Check-In
           </Button>
