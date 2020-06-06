@@ -5,28 +5,32 @@ import CheckIn from "./components/CheckIn";
 import Dashboard from "./components/Dashboard";
 import SignIn from "./components/SignIn";
 import AuthApi from "./utils/createContext";
+import Error from "./components/Error";
 
 function Routes() {
   return (
     <Switch>
-      <RouteRegistration path="/" component={CreateAccount} exact />
-      <RouteRegistration path="/signin" component={SignIn} exact />
+      <RouteRegistration path="/" component={SignIn} exact />
+      <RouteRegistration path="/signup" component={CreateAccount} exact />
       <Route path="/checkin/:adminId" component={CheckIn} exact />
-      <RouteProtected path="/dashboard/:adminId" component={Dashboard} exact />
+      <RouteProtected path="/dashboard" component={Dashboard} exact />
+      {/* <Route path="/dashboard" component={Dashboard} exact /> */}
+      <Route component={Error} />
     </Switch>
   );
 }
 
 const RouteRegistration = ({ component: Component, ...rest }) => {
-  const authApi = useContext(AuthApi);
+  const { auth } = useContext(AuthApi);
   return (
     <Route
       {...rest}
       render={(props) =>
-        !authApi.auth ? (
+        !auth ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/dashboard/:adminId" />
+          // <Redirect to={`/dashboard/${adminId}`} />
+          <Redirect to="/dashboard" />
         )
       }
     />
@@ -34,12 +38,12 @@ const RouteRegistration = ({ component: Component, ...rest }) => {
 };
 
 const RouteProtected = ({ component: Component, ...rest }) => {
-  const authApi = useContext(AuthApi);
+  const { auth } = useContext(AuthApi);
   return (
     <Route
       {...rest}
       render={(props) =>
-        authApi.auth ? <Component {...props} /> : <Redirect to="/signin" />
+        auth ? <Component {...props} /> : <Redirect to="/" />
       }
     />
   );

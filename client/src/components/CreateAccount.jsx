@@ -56,12 +56,13 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CreateAccount() {
   const classes = useStyles();
+
   const [showForm, setShowForm] = useState(true);
   const [open, setOpen] = useState(false);
   const [qrgenerator, setQrGenerator] = useState(false);
   const [email, setEmail] = useState("");
   const joindate = new Date();
-  //const [adminId] = useState(uuid());
+
   const adminId = useMemo(() => uuid(), []);
   const password = useMemo(
     () =>
@@ -84,6 +85,7 @@ export default function CreateAccount() {
     setQrGenerator(true);
     setOpen(true);
 
+    /* eslint-disable no-unused-vars */
     const res = await signup({
       joindate,
       email,
@@ -153,7 +155,7 @@ export default function CreateAccount() {
                 unmountOnExit
               >
                 <NavLink
-                  to={`/dashboard/${adminId}`}
+                  to="/dashboard"
                   style={{ color: "inherit", textDecoration: "inherit" }}
                 >
                   <Button

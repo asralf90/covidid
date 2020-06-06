@@ -44,16 +44,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const getId = () => {
+  const pathArray = window.location.pathname.split("/");
+  return pathArray[2];
+};
+
 export default function CheckIn() {
   const classes = useStyles();
 
   const [fullname, setFullname] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
-  const getId = () => {
-    const pathArray = window.location.pathname.split("/");
-    return pathArray[2];
-  };
+
   const adminId = useMemo(() => getId(), []);
 
   console.log(adminId);

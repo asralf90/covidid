@@ -25,4 +25,9 @@ const signout = async () => {
   return result;
 };
 
-export { signin, signup, hasSignned, signout };
+const qrcode = async () => {
+  const result = await axios.get("/auth/qrcode/:adminid");
+  return result;
+};
+
+export { signin, signup, hasSignned, signout, qrcode };

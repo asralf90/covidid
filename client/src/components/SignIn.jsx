@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,7 +12,6 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { hasSignned, signin } from "../api/auth-api";
 import Copyright from "./Copyright";
 import AuthApi from "../utils/createContext";
 
@@ -48,43 +47,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
   const classes = useStyles();
-  const { setAuth } = useContext(AuthApi);
-
-  const handleOnChange = (e) => {
-    if (e.target.name === "username") {
-      setEmail(e.target.value);
-    } else {
-      setPassword(e.target.value);
-    }
-  };
-
-  const handleSignIn = async (e) => {
-    e.preventDefault();
-    const res = await signin({ email, password });
-    if (res.data.auth) {
-      setAuth(true);
-    }
-    console.log(res);
-  };
-
-  const readSession = async () => {
-    const result = await hasSignned();
-    //result.data.auth
-    const { data } = result;
-    const { auth } = data;
-    if (auth) {
-      setAuth(true);
-    }
-    console.log(result);
-  };
-
-  useEffect(() => {
-    readSession();
-  });
-
+  const { handleOnChange, handleSignIn } = useContext(AuthApi);
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -103,7 +67,7 @@ export default function SignIn() {
             fullWidth
             id="email"
             label="Email Address"
-            name="username"
+            name="email"
             autoComplete="email"
             autoFocus
             onChange={handleOnChange}
@@ -136,7 +100,7 @@ export default function SignIn() {
           </Button>
           <Grid container>
             <Grid item>
-              <Link href="/" variant="body2">
+              <Link href="/signup" variant="body2">
                 Don't have an account? Sign Up
               </Link>
             </Grid>
