@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const userSchema = Schema({
   joindate: { type: Date, default: Date.now },
-
   email: {
     type: String,
     required: true,
@@ -18,6 +17,9 @@ const userSchema = Schema({
   adminId: {
     type: String,
     required: true,
+  },
+  customer: {
+    type: String,
   },
 });
 

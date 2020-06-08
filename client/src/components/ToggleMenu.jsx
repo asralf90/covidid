@@ -10,6 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import AuthApi from "../utils/createContext";
 import { signout } from "../api/auth-api";
 import MenuIcon from "@material-ui/icons/Menu";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,6 +30,8 @@ export default function MenuListComposition() {
   const { setAuth } = useContext(AuthApi);
   const handleLogout = async () => {
     const res = await signout();
+    const localStorageKey = "myValueInLocalStorage";
+    localStorage.removeItem(localStorageKey);
     setAuth(res.data.auth);
   };
 
@@ -94,7 +97,10 @@ export default function MenuListComposition() {
                     id="menu-list-grow"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    <MenuItem onClick={handleLogout}>
+                      <ExitToAppIcon />
+                      Logout
+                    </MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>

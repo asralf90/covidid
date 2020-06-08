@@ -1,26 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Routes from "./Routes";
 import { BrowserRouter as Router } from "react-router-dom";
 import AuthApi from "./utils/createContext";
-import { hasSignned, signin } from "./api/auth-api";
-
-//custom localstorage hooks
-const useStateWithLocalStorage = (localStorageKey) => {
-  const [value, setValue] = useState(
-    localStorage.getItem(localStorageKey) || ""
-  );
-
-  useEffect(() => {
-    localStorage.setItem(localStorageKey, value);
-  }, [value]);
-
-  return [value, setValue];
-};
+import { hasSignned, signin, signup } from "./api/auth-api";
+import useStateWithLocalStorage from "./utils/customLocalStorageHooks";
+import { v4 as uuid } from "uuid";
 
 function App() {
   const [auth, setAuth] = useState(false);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const joindate = new Date();
+  const adminId = useMemo(() => uuid(), []);
   const [value, setValue] = useStateWithLocalStorage("myValueInLocalStorage");
 
   const handleOnChange = (e) => {
@@ -36,6 +27,22 @@ function App() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     const res = await signin({ email, password });
+    if (res.data.auth) {
+      setAuth(true);
+    }
+    //console.log(res);
+  };
+
+  const handleCreateUserAccount = async (e) => {
+    e.preventDefault();
+
+    /* eslint-disable no-unused-vars */
+    const res = await signup({
+      joindate,
+      email,
+      password,
+      adminId,
+    });
     if (res.data.auth) {
       setAuth(true);
     }
@@ -65,6 +72,7 @@ function App() {
         setAuth,
         handleOnChange,
         handleSignIn,
+        handleCreateUserAccount,
         email,
         password,
         value,

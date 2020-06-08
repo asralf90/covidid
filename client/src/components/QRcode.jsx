@@ -3,9 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import FileCopyIcon from "@material-ui/icons/FileCopy";
 import GetAppIcon from "@material-ui/icons/GetApp";
-
 import QRCode from "qrcode.react";
-
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
@@ -14,7 +12,7 @@ function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function QRGenerator({ password, adminId }) {
+export default function QRGenerator({ adminId }) {
   const [qrcode, setQrcode] = useState({
     value: "",
     copied: false,
@@ -27,7 +25,7 @@ export default function QRGenerator({ password, adminId }) {
       .replace("image/png", "image/octet-stream");
     let downloadLink = document.createElement("a");
     downloadLink.href = pngUrl;
-    downloadLink.download = password + ".png";
+    downloadLink.download = "QR_" + adminId + ".png";
     document.body.appendChild(downloadLink);
     downloadLink.click();
     document.body.removeChild(downloadLink);
@@ -68,9 +66,9 @@ export default function QRGenerator({ password, adminId }) {
         </Button>
       </div>
       <Typography align="center" variant="caption" paragraph="true">
-        Your Password : {password}
+        <a href={`http://localhost:3000/checkin/${adminId}`}>User Form URL</a>
         <CopyToClipboard
-          text={password}
+          text={`http://localhost:3000/checkin/${adminId}`}
           onCopy={() => setQrcode({ ...qrcode, copied: true })}
         >
           <Button onClick={handleClick}>

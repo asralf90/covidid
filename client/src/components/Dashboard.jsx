@@ -13,6 +13,10 @@ import axios from "axios";
 import AuthApi from "../utils/createContext";
 import TablePage from "../components/TablePage";
 import FormDialog from "./FormDialog";
+import moment from "moment";
+
+const m = moment();
+const today = m.format("LL");
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,18 +42,20 @@ export default function Dashboard() {
   const { value } = useContext(AuthApi);
 
   const [userData, setUserData] = useState({});
+  const [userData2, setUserData2] = useState([]);
 
   const readData = async () => {
-    const result = await axios.post(`/auth/getemail/${value}`);
-    console.log(result);
+    const fetchUserInfo = await axios.post(`/auth/getemail/${value}`);
+
+    console.log(fetchUserInfo);
     // console.log(result.data.user[0]._id);
-    const { data } = result;
+    const { data } = fetchUserInfo;
     const { user } = data;
 
-    let newCustomerData = {};
+    let newUserData = {};
 
     user.forEach((cData) => {
-      newCustomerData = {
+      newUserData = {
         joindate: cData.word,
         email: cData.email,
         adminId: cData.adminId,
@@ -57,8 +63,23 @@ export default function Dashboard() {
       };
     });
 
-    console.log(newCustomerData);
-    setUserData(newCustomerData);
+    console.log(newUserData);
+    setUserData(newUserData);
+
+    const fetchCustomerInfo = await axios.post(
+      `/customerinfo/getcustomer/${fetchUserInfo.data.user[0].adminId}`
+    );
+
+    console.log(fetchCustomerInfo);
+
+    // console.log(result.data.customer_info[0]._id);
+
+    let newUserData2 = [];
+
+    const cust = fetchCustomerInfo.data;
+
+    console.log(cust.customer_info);
+    setUserData2(cust.customer_info);
   };
 
   useEffect(() => {
@@ -78,15 +99,15 @@ export default function Dashboard() {
             noWrap
             className={classes.title}
           >
-            Dashboard
+            Dashboard {today}
           </Typography>
           <AccountCircleIcon />
-          <Typography color="inherit" noWrap>
+          <Typography color="inherit" noWrap align="right">
             {userData.email}
           </Typography>
           <IconButton color="inherit">
             {/* <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
+              <NotificationsIcon />]]]]]'''''
             </Badge> */}
           </IconButton>
           <ToggleMenu />
@@ -94,8 +115,8 @@ export default function Dashboard() {
       </AppBar>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <TablePage />
-        <FormDialog />
+        <FormDialog adminId={userData.adminId} />
+        <TablePage data={userData2} />
       </main>
     </div>
   );

@@ -2,10 +2,11 @@ const express = require("express");
 const User = require("../model/user.model");
 const router = express.Router();
 
-//get userId by email
+//get user data by email
 router.post("/getemail/:email", (req, res, next) => {
   const email = req.params.email;
   User.find({ email: email })
+    // .select("joindate adminId email customer")
     .exec()
     .then((docs) => {
       const response = {
@@ -30,7 +31,7 @@ router.post("/getemail/:email", (req, res, next) => {
     });
 });
 
-//get adminId by id
+//get user data by adminId
 router.post("/getuser/:adminId", (req, res, next) => {
   const adminId = req.params.adminId;
   User.find({ adminId: adminId })
