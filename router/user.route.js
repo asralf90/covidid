@@ -78,6 +78,7 @@ router.post("/signin", async (req, res) => {
     });
   }
 });
+
 router.post("/signup", (req, res) => {
   const user = new User(req.body);
   req.session.user = user._id;
@@ -117,37 +118,33 @@ router.get("/signout", (req, res) => {
   });
 });
 
-router.get("/qrcode", (req, res) => {
-  if (req.session.user) {
-    res.json({
-      auth: true,
-      message: "QR Code Retrieved",
-    });
-  }
-  return res.json({
-    auth: false,
-    message: "QR Code Not Retrieved",
-  });
-});
+// router.get("/qrcode", (req, res) => {
+//   if (req.session.user) {
+//     res.json({
+//       auth: true,
+//       message: "QR Code Retrieved",
+//     });
+//   }
+//   return res.json({
+//     auth: false,
+//     message: "QR Code Not Retrieved",
+//   });
+// });
 
-//get all results
-router.get("/qrcode/:adminid", (req, res) => {
-  const adminid = req.params.adminid;
-  User.find({ adminId: adminid })
+router.post("/form/:adminId", (req, res) => {
+  const adminId = req.params.adminId;
+  User.find({ adminId: adminId })
     .exec()
     .then((docs) => {
       const response = {
-        count: docs.length,
         usersinfo: docs.map((doc) => {
           return {
-            joindate: doc.joindate,
-            email: doc.email,
-            adminId: doc.adminId,
-            _id: doc._id,
+            auth: true,
+            message: "Account verified",
           };
         }),
       };
-      if (docs.length >= 0) {
+      if (docs.length > 0) {
         res.status(200).json(response);
       } else {
         res.status(404).json({
@@ -162,5 +159,38 @@ router.get("/qrcode/:adminid", (req, res) => {
       });
     });
 });
+
+//get all results
+// router.get("/qrcode/:adminid", (req, res) => {
+//   const adminid = req.params.adminid;
+//   User.find({ adminId: adminid })
+//     .exec()
+//     .then((docs) => {
+//       const response = {
+//         count: docs.length,
+//         usersinfo: docs.map((doc) => {
+//           return {
+//             joindate: doc.joindate,
+//             email: doc.email,
+//             adminId: doc.adminId,
+//             _id: doc._id,
+//           };
+//         }),
+//       };
+//       if (docs.length >= 0) {
+//         res.status(200).json(response);
+//       } else {
+//         res.status(404).json({
+//           message: "No entries found",
+//         });
+//       }
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
+// });
 
 module.exports = router;

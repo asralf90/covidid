@@ -63,18 +63,14 @@ export default function Dashboard() {
       };
     });
 
-    console.log(newUserData);
+    // console.log(newUserData);
     setUserData(newUserData);
 
     const fetchCustomerInfo = await axios.post(
       `/customerinfo/getcustomer/${fetchUserInfo.data.user[0].adminId}`
     );
 
-    console.log(fetchCustomerInfo);
-
-    // console.log(result.data.customer_info[0]._id);
-
-    let newUserData2 = [];
+    // console.log(fetchCustomerInfo);
 
     const cust = fetchCustomerInfo.data;
 
