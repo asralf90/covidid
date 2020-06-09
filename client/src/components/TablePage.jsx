@@ -39,6 +39,7 @@ export default function TablePage({ data }) {
             title="Customer Infomation"
             options={{
               exportButton: true,
+              filtering: true,
             }}
           />
         </Grid>

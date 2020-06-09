@@ -5,6 +5,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
+
 // import Badge from "@material-ui/core/Badge";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 // import NotificationsIcon from "@material-ui/icons/Notifications";
@@ -106,12 +107,14 @@ export default function Dashboard() {
               <NotificationsIcon />]]]]]'''''
             </Badge> */}
           </IconButton>
+
+          <FormDialog adminId={userData.adminId} />
+
           <ToggleMenu />
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <FormDialog adminId={userData.adminId} />
         <TablePage data={userData2} />
       </main>
     </div>

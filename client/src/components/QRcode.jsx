@@ -62,11 +62,13 @@ export default function QRGenerator({ adminId }) {
           includeMargin={false}
         />
         <Button fullWidth onClick={downloadQR}>
-          <GetAppIcon /> Download QR Code - User Form URL
+          <GetAppIcon /> Download
         </Button>
       </div>
       <Typography align="center" variant="caption" paragraph="true">
-        <a href={`http://localhost:3000/checkin/${adminId}`}>User Form URL</a>
+        <a
+          href={`http://localhost:3000/checkin/${adminId}`}
+        >{`http://localhost:3000/checkin/${adminId}`}</a>
         <CopyToClipboard
           text={`http://localhost:3000/checkin/${adminId}`}
           onCopy={() => setQrcode({ ...qrcode, copied: true })}
@@ -79,7 +81,7 @@ export default function QRGenerator({ adminId }) {
         {qrcode.copied ? (
           <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="success">
-              Password Copied to Clipboard!
+              Form URL Copied to Clipboard!
             </Alert>
           </Snackbar>
         ) : null}
