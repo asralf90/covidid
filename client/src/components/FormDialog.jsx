@@ -8,6 +8,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CropFreeIcon from "@material-ui/icons/CropFree";
 import Tooltip from "@material-ui/core/Tooltip";
+import SocialShare from "./SocialShare";
 
 export default function FormDialog({ adminId }) {
   const [open, setOpen] = useState(false);
@@ -33,14 +34,13 @@ export default function FormDialog({ adminId }) {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">
-          My QR Code - Please Keep a Copy of the QR Code
-        </DialogTitle>
+        <DialogTitle id="form-dialog-title">My QR Code</DialogTitle>
         <DialogContent>
           {/* <DialogContentText>
             Please keep a copy of the QR Image
           </DialogContentText> */}
           <QRcode adminId={adminId} />
+          <SocialShare adminId={adminId} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

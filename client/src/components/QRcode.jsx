@@ -7,6 +7,8 @@ import QRCode from "qrcode.react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
+import { NavLink } from "react-router-dom";
+import Tooltip from "@material-ui/core/Tooltip";
 
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -51,32 +53,46 @@ export default function QRGenerator({ adminId }) {
   return (
     <div>
       <div style={{ textAlign: "center" }}>
-        <QRCode
-          id="qrc"
-          // value={`http://${hostname}/checkin/${adminId}`}
-          value={`http://localhost:3000/checkin/${adminId}`}
-          size={150}
-          bgColor={"#fff"}
-          fgColor={"#45046a"}
-          level={"H"}
-          includeMargin={false}
-        />
-        <Button fullWidth onClick={downloadQR}>
-          <GetAppIcon /> Download
-        </Button>
+        <Tooltip title="QR Code" arrow>
+          <QRCode
+            id="qrc"
+            // value={`http://${hostname}/checkin/${adminId}`}
+            value={`http://localhost:3000/checkin/${adminId}`}
+            size={150}
+            bgColor={"#fff"}
+            fgColor={"#45046a"}
+            level={"H"}
+            includeMargin={false}
+          />
+        </Tooltip>
+        <Tooltip title="Download QR code" arrow>
+          <Button fullWidth onClick={downloadQR}>
+            <GetAppIcon /> Download
+          </Button>
+        </Tooltip>
       </div>
       <Typography align="center" variant="caption" paragraph="true">
-        <a
-          href={`http://localhost:3000/checkin/${adminId}`}
-        >{`http://localhost:3000/checkin/${adminId}`}</a>
-        <CopyToClipboard
-          text={`http://localhost:3000/checkin/${adminId}`}
-          onCopy={() => setQrcode({ ...qrcode, copied: true })}
-        >
-          <Button onClick={handleClick}>
-            <FileCopyIcon />
-          </Button>
-        </CopyToClipboard>
+        <Tooltip title="Open new tab to URL Form" arrow>
+          <NavLink
+            to={`/checkin/${adminId}`}
+            style={{ color: "inherit", textDecoration: "inherit" }}
+            target="_blank"
+          >
+            URL FORM
+          </NavLink>
+        </Tooltip>
+
+        <Tooltip title="Copy to clipboard" arrow>
+          <CopyToClipboard
+            text={`http://localhost:3000/checkin/${adminId}`}
+            onCopy={() => setQrcode({ ...qrcode, copied: true })}
+          >
+            <Button onClick={handleClick}>
+              <FileCopyIcon />
+            </Button>
+          </CopyToClipboard>
+        </Tooltip>
+
         {/* {qrcode.copied ? <span style={{ color: "red" }}> Copied.</span> : null} */}
         {qrcode.copied ? (
           <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
