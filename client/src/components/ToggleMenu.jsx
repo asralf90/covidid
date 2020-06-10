@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Paper from "@material-ui/core/Paper";
@@ -86,14 +87,14 @@ export default function MenuListComposition({ email, adminId }) {
   return (
     <div className={classes.root}>
       <div>
-        <Button
+        <IconButton
           ref={anchorRef}
           aria-controls={open ? "menu-list-grow" : undefined}
           aria-haspopup="true"
           onClick={handleToggle}
         >
           <AccountCircleIcon />
-        </Button>
+        </IconButton>
         <Popper
           open={open}
           anchorEl={anchorRef.current}

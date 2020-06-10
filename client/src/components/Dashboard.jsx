@@ -5,6 +5,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 // import Badge from "@material-ui/core/Badge";
 
@@ -36,6 +37,12 @@ const useStyles = makeStyles((theme) => ({
     overflow: "auto",
   },
 }));
+
+function refresh() {
+  setTimeout(function () {
+    window.location.reload();
+  }, 100);
+}
 
 export default function Dashboard() {
   const classes = useStyles();
@@ -98,17 +105,15 @@ export default function Dashboard() {
           >
             Dashboard {today}
           </Typography>
-          {/* <Typography color="inherit" noWrap align="right">
-            {userData.email}
-          </Typography> */}
+
           <IconButton color="inherit">
             {/* <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />]]]]]'''''
             </Badge> */}
           </IconButton>
-
-          {/* <FormDialog adminId={userData.adminId} /> */}
-
+          <IconButton color="inherit" onClick={refresh}>
+            <RefreshIcon />
+          </IconButton>
           <ToggleMenu email={userData.email} adminId={userData.adminId} />
         </Toolbar>
       </AppBar>
