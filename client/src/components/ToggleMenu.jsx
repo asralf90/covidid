@@ -9,22 +9,40 @@ import MenuList from "@material-ui/core/MenuList";
 import { makeStyles } from "@material-ui/core/styles";
 import AuthApi from "../utils/createContext";
 import { signout } from "../api/auth-api";
-import MenuIcon from "@material-ui/icons/Menu";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import Divider from "@material-ui/core/Divider";
+import CropFreeIcon from "@material-ui/icons/CropFree";
+import QRcode from "./QRcode";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+// import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import SocialShare from "./SocialShare";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
   paper: {
-    marginRight: theme.spacing(2),
+    position: "fixed",
+    right: "-30px",
+    top: "5px",
   },
 }));
 
-export default function MenuListComposition() {
+export default function MenuListComposition({ email, adminId }) {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
+  const [toggleQR, setToggleQR] = useState(false);
+
+  //handle QR Code
+  const handleClickOpen = () => {
+    setToggleQR(true);
+    // setOpen((prevOpen) => !prevOpen);
+  };
 
   //handle logout
   const { setAuth } = useContext(AuthApi);
@@ -37,13 +55,14 @@ export default function MenuListComposition() {
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
+    setToggleQR(false);
   };
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-
+    setToggleQR(false);
     setOpen(false);
   };
 
@@ -73,7 +92,7 @@ export default function MenuListComposition() {
           aria-haspopup="true"
           onClick={handleToggle}
         >
-          <MenuIcon />
+          <AccountCircleIcon />
         </Button>
         <Popper
           open={open}
@@ -90,13 +109,40 @@ export default function MenuListComposition() {
                   placement === "bottom" ? "center top" : "center bottom",
               }}
             >
-              <Paper>
+              <Paper className={classes.paper}>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MenuList
                     autoFocusItem={open}
                     id="menu-list-grow"
                     onKeyDown={handleListKeyDown}
                   >
+                    <MenuItem disabled={true}>{email}</MenuItem>
+                    <Divider />
+                    <MenuItem onClick={handleClickOpen}>
+                      <CropFreeIcon />
+                      QR Code
+                      <Dialog
+                        open={toggleQR}
+                        onClose={handleClose}
+                        aria-labelledby="form-dialog-title"
+                      >
+                        <DialogTitle id="form-dialog-title">
+                          My QR Code
+                        </DialogTitle>
+                        <DialogContent>
+                          {/* <DialogContentText>
+            Please keep a copy of the QR Image
+          </DialogContentText> */}
+                          <QRcode adminId={adminId} />
+                          <SocialShare adminId={adminId} />
+                        </DialogContent>
+                        <DialogActions>
+                          <Button onClick={handleClose} color="primary">
+                            Close
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </MenuItem>
                     <MenuItem onClick={handleLogout}>
                       <ExitToAppIcon />
                       Logout

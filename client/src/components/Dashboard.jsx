@@ -7,13 +7,13 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 
 // import Badge from "@material-ui/core/Badge";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+
 // import NotificationsIcon from "@material-ui/icons/Notifications";
 import ToggleMenu from "./ToggleMenu";
 import axios from "axios";
 import AuthApi from "../utils/createContext";
 import TablePage from "../components/TablePage";
-import FormDialog from "./FormDialog";
+// import FormDialog from "./FormDialog";
 import moment from "moment";
 
 const m = moment();
@@ -98,19 +98,18 @@ export default function Dashboard() {
           >
             Dashboard {today}
           </Typography>
-          <AccountCircleIcon />
-          <Typography color="inherit" noWrap align="right">
+          {/* <Typography color="inherit" noWrap align="right">
             {userData.email}
-          </Typography>
+          </Typography> */}
           <IconButton color="inherit">
             {/* <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />]]]]]'''''
             </Badge> */}
           </IconButton>
 
-          <FormDialog adminId={userData.adminId} />
+          {/* <FormDialog adminId={userData.adminId} /> */}
 
-          <ToggleMenu />
+          <ToggleMenu email={userData.email} adminId={userData.adminId} />
         </Toolbar>
       </AppBar>
       <main className={classes.content}>
