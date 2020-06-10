@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import { addCustomer } from "../api/customer-api";
+import { submitted } from "../api/auth-api";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import PermContactCalendarIcon from "@material-ui/icons/PermContactCalendar";
@@ -13,6 +14,8 @@ import Container from "@material-ui/core/Container";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import Copyright from "./Copyright";
+import AfterSubmission from "./AfterSubmission";
+// import AuthApi from "../utils/createContext";
 
 // We can use inline-style
 const style = {
@@ -52,7 +55,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function CheckIn() {
   const classes = useStyles();
-
+  // const { setAuth } = useContext(AuthApi);
+  const [auth, setAuth] = useState(true);
   const [fullname, setFullname] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -102,72 +106,83 @@ export default function CheckIn() {
     });
 
     console.log(res);
+
+    const submission = await submitted({ adminId });
+    if (submission.data.auth) {
+      setAuth(false);
+    }
+    console.log(submission);
   };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <PermContactCalendarIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Customer Self Check-In
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                autoComplete="fname"
-                name="fullname"
-                variant="outlined"
-                required
-                fullWidth
-                id="fullName"
-                label="Full Name"
-                autoFocus
-                onChange={handleOnChange}
-              />
+      {auth ? (
+        <div className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <PermContactCalendarIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Customer Self Check-In
+          </Typography>
+          <form className={classes.form} noValidate>
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <TextField
+                  autoComplete="fname"
+                  name="fullname"
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="fullName"
+                  label="Full Name"
+                  autoFocus
+                  onChange={handleOnChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  id="phone"
+                  label="Phone Number"
+                  type="tel"
+                  name="phone"
+                  autoComplete="phone"
+                  onChange={handleOnChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  variant="outlined"
+                  required
+                  fullWidth
+                  name="address"
+                  label="Home Address"
+                  type="text"
+                  id="address"
+                  autoComplete="address"
+                  onChange={handleOnChange}
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="phone"
-                label="Phone Number"
-                type="tel"
-                name="phone"
-                autoComplete="phone"
-                onChange={handleOnChange}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="address"
-                label="Home Address"
-                type="text"
-                id="address"
-                autoComplete="address"
-                onChange={handleOnChange}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            style={style}
-            className={classes.submit}
-            onClick={handleCheckIn}
-          >
-            Check-In
-          </Button>
-        </form>
-      </div>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              style={style}
+              className={classes.submit}
+              onClick={handleCheckIn}
+            >
+              Check-In
+            </Button>
+          </form>
+        </div>
+      ) : (
+        <AfterSubmission />
+      )}
+
       <Box mt={5}>
         <Copyright />
       </Box>

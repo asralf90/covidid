@@ -10,9 +10,9 @@ const getCustomer = async () => {
   return result;
 };
 
-const deleteData = async (user) => {
-  const result = await axios.delete("/customerinfo/deleteword/:cardId", user);
-  return result;
-};
+// const deleteData = async (user) => {
+//   const result = await axios.delete("/customerinfo/deleteword/:cardId", user);
+//   return result;
+// };
 
-export { addCustomer, getCustomer, deleteData };
+export { addCustomer, getCustomer };

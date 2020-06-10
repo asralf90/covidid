@@ -14,6 +14,7 @@ function Routes() {
       <RouteRegistration path="/signup" component={CreateAccount} exact />
       <Route path="/checkin/:adminId" component={CheckIn} exact />
       <RouteProtected path="/dashboard" component={Dashboard} exact />
+
       {/* <Route path="/dashboard" component={Dashboard} exact /> */}
       <Route component={Error} />
     </Switch>
@@ -26,12 +27,7 @@ const RouteRegistration = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       render={(props) =>
-        !auth ? (
-          <Component {...props} />
-        ) : (
-          // <Redirect to={`/dashboard/${adminId}`} />
-          <Redirect to="/dashboard" />
-        )
+        !auth ? <Component {...props} /> : <Redirect to="/dashboard" />
       }
     />
   );

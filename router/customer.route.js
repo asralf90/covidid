@@ -64,39 +64,4 @@ router.post("/getcustomer/:adminId", (req, res, next) => {
     });
 });
 
-//get all results
-// router.get("/get", (req, res) => {
-//   const creatorId = req.params.userId;
-//   Customer.find({ creator: creatorId })
-//     .exec()
-//     .then((docs) => {
-//       const response = {
-//         count: docs.length,
-//         customerinfo: docs.map((doc) => {
-//           return {
-//             fullname: doc.fullname,
-//             phone: doc.phone,
-//             address: doc.address,
-//             dateofbirth: doc.dateofbirth,
-//             adminid: doc.adminid,
-//             _id: doc._id,
-//           };
-//         }),
-//       };
-//       if (docs.length >= 0) {
-//         res.status(200).json(response);
-//       } else {
-//         res.status(404).json({
-//           message: "No entries found",
-//         });
-//       }
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).json({
-//         error: err,
-//       });
-//     });
-// });
-
 module.exports = router;

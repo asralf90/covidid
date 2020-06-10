@@ -30,4 +30,9 @@ const qrcode = async () => {
   return result;
 };
 
-export { signin, signup, hasSignned, signout, qrcode };
+const submitted = async (user) => {
+  const result = await axios.post("/auth/submitted", user);
+  return result;
+};
+
+export { signin, signup, hasSignned, signout, qrcode, submitted };

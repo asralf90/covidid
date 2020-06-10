@@ -118,19 +118,6 @@ router.get("/signout", (req, res) => {
   });
 });
 
-// router.get("/qrcode", (req, res) => {
-//   if (req.session.user) {
-//     res.json({
-//       auth: true,
-//       message: "QR Code Retrieved",
-//     });
-//   }
-//   return res.json({
-//     auth: false,
-//     message: "QR Code Not Retrieved",
-//   });
-// });
-
 router.post("/form/:adminId", (req, res) => {
   const adminId = req.params.adminId;
   User.find({ adminId: adminId })
@@ -160,37 +147,22 @@ router.post("/form/:adminId", (req, res) => {
     });
 });
 
-//get all results
-// router.get("/qrcode/:adminid", (req, res) => {
-//   const adminid = req.params.adminid;
-//   User.find({ adminId: adminid })
-//     .exec()
-//     .then((docs) => {
-//       const response = {
-//         count: docs.length,
-//         usersinfo: docs.map((doc) => {
-//           return {
-//             joindate: doc.joindate,
-//             email: doc.email,
-//             adminId: doc.adminId,
-//             _id: doc._id,
-//           };
-//         }),
-//       };
-//       if (docs.length >= 0) {
-//         res.status(200).json(response);
-//       } else {
-//         res.status(404).json({
-//           message: "No entries found",
-//         });
-//       }
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).json({
-//         error: err,
-//       });
-//     });
-// });
+router.post("/submitted", async (req, res) => {
+  const { adminId } = req.body;
+  const user = await User.find({ adminId: adminId });
+  if (user) {
+    req.session.user = user._id;
+    res.json({
+      message: "Form successfully submitted",
+      auth: true,
+      adminId: user.adminId,
+    });
+  } else {
+    res.json({
+      message: "Submission failed.",
+      auth: false,
+    });
+  }
+});
 
 module.exports = router;
