@@ -21,10 +21,10 @@ export default function TablePage({ data }) {
         <Grid>
           <MaterialTable
             columns={[
-              { title: "Name", field: "fullname" },
-              { title: "Phone", field: "phone", type: "numeric" },
+              { title: "Customer Name", field: "fullname" },
+              { title: "Phone No.", field: "phone", type: "string" },
               { title: "Address", field: "address" },
-              { title: "Date", field: "updated", type: "date" },
+              { title: "Check-In Date", field: "updated", type: "datetime" }, //Data type: 'boolean', 'numeric', 'date', 'datetime', 'time', 'currency'
             ]}
             // data={[
             //   // {

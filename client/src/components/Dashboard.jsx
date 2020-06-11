@@ -6,10 +6,8 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import RefreshIcon from "@material-ui/icons/Refresh";
-
-// import Badge from "@material-ui/core/Badge";
-
-// import NotificationsIcon from "@material-ui/icons/Notifications";
+import Badge from "@material-ui/core/Badge";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import ToggleMenu from "./ToggleMenu";
 import axios from "axios";
 import AuthApi from "../utils/createContext";
@@ -83,6 +81,7 @@ export default function Dashboard() {
     const cust = fetchCustomerInfo.data;
 
     console.log(cust.customer_info);
+    console.log(cust.count);
     setUserData2(cust.customer_info);
   };
 
@@ -105,14 +104,13 @@ export default function Dashboard() {
           >
             Dashboard {today}
           </Typography>
-
-          <IconButton color="inherit">
-            {/* <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />]]]]]'''''
-            </Badge> */}
-          </IconButton>
           <IconButton color="inherit" onClick={refresh}>
             <RefreshIcon />
+          </IconButton>
+          <IconButton color="inherit">
+            <Badge badgeContent={4} color="secondary">
+              <NotificationsIcon />
+            </Badge>
           </IconButton>
           <ToggleMenu email={userData.email} adminId={userData.adminId} />
         </Toolbar>
