@@ -1,10 +1,10 @@
 import React from "react";
 import QRCode from "./QRcode";
 
-function QRPage() {
+function QRPage({ userdata }) {
   return (
     <div>
-      <QRCode />
+      <QRCode userdata={userdata} />
     </div>
   );
 }

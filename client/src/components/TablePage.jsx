@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TablePage() {
+export default function TablePage({ customerdata }) {
   const classes = useStyles();
 
   const { customerData } = useContext(AuthApi);
@@ -36,7 +36,7 @@ export default function TablePage() {
             //   //   date: 34,
             //   // },
             // ]}
-            data={customerData}
+            data={customerdata}
             title="Customer Information"
             options={{
               exportButton: true,

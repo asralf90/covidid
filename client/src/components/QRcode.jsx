@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function QRGenerator() {
+export default function QRGenerator({ userdata }) {
   const classes = useStyles();
 
   const [qrcode, setQrcode] = useState({
@@ -80,9 +80,7 @@ export default function QRGenerator() {
     setOpen(false);
   };
 
-  const { userData } = useContext(DataApi);
-
-  const adminId = userData.adminId;
+  const adminId = userdata.adminId;
 
   return (
     <div>

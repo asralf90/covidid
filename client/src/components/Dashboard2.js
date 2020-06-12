@@ -16,7 +16,7 @@ import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import ToggleMenu from "./ToggleMenu";
 import Loader from "./Loader";
-// import axios from "axios";
+import axios from "axios";
 import AuthApi from "../utils/createContext";
 import moment from "moment";
 import PageRoute from "./PageRoute";
@@ -139,7 +139,55 @@ export default function Dashboard2() {
     setOpen(false);
   };
 
-  const { userData, isFetching } = useContext(AuthApi);
+  const { value } = useContext(AuthApi);
+
+  //get user and customer api
+  const [userData, setUserData] = useState({});
+  const [customerData, setCustomerData] = useState([]);
+  const [isFetching, setIsFetching] = useState(false);
+
+  const readData = async () => {
+    const fetchUserInfo = await axios.post(`/auth/getemail/${value}`);
+
+    console.log(fetchUserInfo);
+    // console.log(result.data.user[0]._id);
+    const { data } = fetchUserInfo;
+    const { user } = data;
+
+    let newUserData = {};
+
+    user.forEach((cData) => {
+      newUserData = {
+        joindate: cData.word,
+        email: cData.email,
+        adminId: cData.adminId,
+        _id: cData._id,
+      };
+    });
+
+    // console.log(newUserData);
+    setUserData(newUserData);
+
+    const fetchCustomerInfo = await axios.post(
+      `/customerinfo/getcustomer/${fetchUserInfo.data.user[0].adminId}`
+    );
+
+    // console.log(fetchCustomerInfo);
+
+    const cust = fetchCustomerInfo.data;
+
+    // console.log(cust.customer_info);
+    // console.log(cust.count);
+    setCustomerData(cust.customer_info);
+    setIsFetching(true);
+  };
+
+  useEffect(() => {
+    readData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const username = value.slice(0, value.search("@"));
 
   return (
     <Fragment>
@@ -212,21 +260,11 @@ export default function Dashboard2() {
             })}
           >
             <div className={classes.appBarSpacer} />
-            <PageRoute />
+            <PageRoute customerdata={customerData} userdata={userData} />
           </main>
         </div>
       ) : (
-        <div
-          style={{
-            position: "absolute",
-            left: "50%",
-            top: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <Loader color={"#9370DB"} />
-          <Typography>Loading . . .</Typography>
-        </div>
+        <Loader type={"Bars"} color={"#9370DB"} />
       )}
     </Fragment>
   );

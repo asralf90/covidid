@@ -29,7 +29,6 @@ export default function App() {
     e.preventDefault();
     const res = await signin({ email, password });
     if (res.data.auth) {
-      readData();
       setAuth(true);
     }
     //console.log(res);
@@ -74,54 +73,6 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  //get user and customer api
-  const [userData, setUserData] = useState({});
-  const [customerData, setCustomerData] = useState([]);
-  const [isFetching, setIsFetching] = useState(false);
-
-  const readData = async () => {
-    const fetchUserInfo = await axios.post(`/auth/getemail/${value}`);
-
-    console.log(fetchUserInfo);
-    // console.log(result.data.user[0]._id);
-    const { data } = fetchUserInfo;
-    const { user } = data;
-
-    let newUserData = {};
-
-    user.forEach((cData) => {
-      newUserData = {
-        joindate: cData.word,
-        email: cData.email,
-        adminId: cData.adminId,
-        _id: cData._id,
-      };
-    });
-
-    // console.log(newUserData);
-    setUserData(newUserData);
-
-    const fetchCustomerInfo = await axios.post(
-      `/customerinfo/getcustomer/${fetchUserInfo.data.user[0].adminId}`
-    );
-
-    // console.log(fetchCustomerInfo);
-
-    const cust = fetchCustomerInfo.data;
-
-    // console.log(cust.customer_info);
-    // console.log(cust.count);
-    setCustomerData(cust.customer_info);
-    setIsFetching(true);
-  };
-
-  useEffect(() => {
-    readData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // const username = value.slice(0, value.search("@"));
-
   return (
     <AuthApi.Provider
       value={{
@@ -134,9 +85,6 @@ export default function App() {
         email,
         password,
         value,
-        userData,
-        customerData,
-        isFetching,
       }}
     >
       <Router>
