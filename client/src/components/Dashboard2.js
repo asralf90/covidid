@@ -15,7 +15,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import ToggleMenu from "./ToggleMenu";
-import Loader from "react-loader-spinner";
+import Loader from "./Loader";
 // import axios from "axios";
 import AuthApi from "../utils/createContext";
 import moment from "moment";
@@ -216,9 +216,16 @@ export default function Dashboard2() {
           </main>
         </div>
       ) : (
-        <div className="col spinner_item p-5">
-          <Loader type="Bars" color="#00BFFF" height={100} width={100} />
-          <p>Loading...</p>
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            top: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <Loader color={"#9370DB"} />
+          <Typography>Loading . . .</Typography>
         </div>
       )}
     </Fragment>

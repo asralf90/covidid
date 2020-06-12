@@ -120,6 +120,8 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // const username = value.slice(0, value.search("@"));
+
   return (
     <AuthApi.Provider
       value={{

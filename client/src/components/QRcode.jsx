@@ -103,7 +103,7 @@ export default function QRGenerator() {
                   bgColor={"#fff"}
                   fgColor={"#45046a"}
                   level={"H"}
-                  includeMargin={false}
+                  includeMargin={true}
                 />
               </NavLink>
             </Tooltip>

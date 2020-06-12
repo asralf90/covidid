@@ -11,9 +11,12 @@ const DrawerHeader = ({ collapsed, email }) => (
         padding: collapsed ? 8 : 16,
         transition: "0.3s",
         textAlign: "center",
+        position: "relative",
+        top: "-20px",
       }}
     >
       <Avatar
+        src="https://3.bp.blogspot.com/-g0xDCbB8zLQ/Toxm5r7KzBI/AAAAAAAAAF8/C7VdGxUJPdc/s320/daniyui.jpg"
         style={{
           width: collapsed ? 48 : 60,
           height: collapsed ? 48 : 60,
@@ -23,12 +26,13 @@ const DrawerHeader = ({ collapsed, email }) => (
         }}
       />
       <div style={{ paddingBottom: 16 }} />
-      {/* <Typography variant={"h6"} noWrap>
-        Sandra Adams
-      </Typography> */}
+      <Typography variant={"h6"} noWrap>
+        Danial Asraf
+      </Typography>
       <Typography color={"textSecondary"} noWrap gutterBottom>
         {email}
       </Typography>
+      <Typography color={"textSecondary"}>Date Joined : June 2020</Typography>
     </div>
     <Divider />
   </>
