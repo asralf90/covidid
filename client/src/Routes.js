@@ -14,6 +14,8 @@ function Routes() {
       <RouteRegistration path="/signup" component={CreateAccount} exact />
       <Route path="/checkin/:adminId" component={CheckIn} exact />
       <RouteProtected path="/dashboard" component={Dashboard2} exact />
+      <RouteProtected path="/qr" component={Dashboard2} exact />
+      <RouteProtected path="/settings" component={Dashboard2} exact />
 
       {/* <Route path="/dashboard" component={Dashboard} exact /> */}
       <Route component={Error} />

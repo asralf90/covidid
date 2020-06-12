@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import MaterialTable from "material-table";
 import { Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import AuthApi from "../utils/createContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -10,10 +11,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TablePage({ data }) {
+export default function TablePage() {
   const classes = useStyles();
 
-  console.log(data);
+  const { customerData } = useContext(AuthApi);
 
   return (
     <div>
@@ -35,8 +36,8 @@ export default function TablePage({ data }) {
             //   //   date: 34,
             //   // },
             // ]}
-            data={data}
-            title="Customer Infomation"
+            data={customerData}
+            title="Customer Information"
             options={{
               exportButton: true,
               filtering: true,

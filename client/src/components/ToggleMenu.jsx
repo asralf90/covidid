@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
@@ -9,18 +9,18 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MenuList from "@material-ui/core/MenuList";
 import { makeStyles } from "@material-ui/core/styles";
 import AuthApi from "../utils/createContext";
-import { signout } from "../api/auth-api";
+// import { signout } from "../api/auth-api";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import Divider from "@material-ui/core/Divider";
-import CropFreeIcon from "@material-ui/icons/CropFree";
-import QRcode from "./QRcode";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-// import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import SocialShare from "./SocialShare";
+
+// import CropFreeIcon from "@material-ui/icons/CropFree";
+// import QRcode from "./QRcode";
+// import Dialog from "@material-ui/core/Dialog";
+// import DialogActions from "@material-ui/core/DialogActions";
+// import DialogContent from "@material-ui/core/DialogContent";
+
+// import DialogTitle from "@material-ui/core/DialogTitle";
+// import SocialShare from "./SocialShare";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,37 +33,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MenuListComposition({ email, adminId }) {
+export default function MenuListComposition() {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
-  const [toggleQR, setToggleQR] = useState(false);
+  // const [toggleQR, setToggleQR] = useState(false);
 
   //handle QR Code
-  const handleClickOpen = () => {
-    setToggleQR(true);
-    // setOpen((prevOpen) => !prevOpen);
-  };
+  // const handleClickOpen = () => {
+  //   setToggleQR(true);
+  //   // setOpen((prevOpen) => !prevOpen);
+  // };
 
   //handle logout
-  const { setAuth } = useContext(AuthApi);
-  const handleLogout = async () => {
-    const res = await signout();
-    const localStorageKey = "myValueInLocalStorage";
-    localStorage.removeItem(localStorageKey);
-    setAuth(res.data.auth);
-  };
+  const { handleLogout } = useContext(AuthApi);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
-    setToggleQR(false);
+    // setToggleQR(false);
   };
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
     }
-    setToggleQR(false);
+    // setToggleQR(false);
     setOpen(false);
   };
 
@@ -117,9 +111,7 @@ export default function MenuListComposition({ email, adminId }) {
                     id="menu-list-grow"
                     onKeyDown={handleListKeyDown}
                   >
-                    <MenuItem disabled={true}>{email}</MenuItem>
-                    <Divider />
-                    <MenuItem onClick={handleClickOpen}>
+                    {/* <MenuItem onClick={handleClickOpen}>
                       <CropFreeIcon />
                       QR Code
                       <Dialog
@@ -131,9 +123,7 @@ export default function MenuListComposition({ email, adminId }) {
                           My QR Code
                         </DialogTitle>
                         <DialogContent>
-                          {/* <DialogContentText>
-            Please keep a copy of the QR Image
-          </DialogContentText> */}
+                     
                           <QRcode adminId={adminId} />
                           <SocialShare adminId={adminId} />
                         </DialogContent>
@@ -143,7 +133,7 @@ export default function MenuListComposition({ email, adminId }) {
                           </Button>
                         </DialogActions>
                       </Dialog>
-                    </MenuItem>
+                    </MenuItem> */}
                     <MenuItem onClick={handleLogout}>
                       <ExitToAppIcon />
                       Logout

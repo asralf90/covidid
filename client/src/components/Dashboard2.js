@@ -1,11 +1,10 @@
 import clsx from "clsx";
 import Drawer from "@material-ui/core/Drawer";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import DrawerHeader from "./DrawerHeader";
 import DrawerContent from "./DrawerContent";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import AppBar from "@material-ui/core/AppBar";
@@ -16,10 +15,12 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import Badge from "@material-ui/core/Badge";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import ToggleMenu from "./ToggleMenu";
-import axios from "axios";
+import Loader from "react-loader-spinner";
+// import axios from "axios";
 import AuthApi from "../utils/createContext";
-import TablePage from "../components/TablePage";
 import moment from "moment";
+import PageRoute from "./PageRoute";
+// import DataApi from "../utils/createContext";
 
 const m = moment();
 const today = m.format("LL");
@@ -94,11 +95,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBarSpacer: theme.mixins.toolbar,
-  //   content: {
-  //     flexGrow: 1,
-  //     height: "100vh",
-  //     overflow: "auto",
-  //   },
+  content: {
+    flexGrow: 1,
+    height: "100vh",
+    overflow: "auto",
+  },
   paper: {
     padding: theme.spacing(2),
     display: "flex",
@@ -115,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
-    marginLeft: "-70px",
+    // marginLeft: "-70px",
   },
   contentShift: {
     transition: theme.transitions.create("margin", {
@@ -138,121 +139,88 @@ export default function Dashboard2() {
     setOpen(false);
   };
 
-  const { value } = useContext(AuthApi);
-
-  const [userData, setUserData] = useState({});
-  const [userData2, setUserData2] = useState([]);
-
-  const readData = async () => {
-    const fetchUserInfo = await axios.post(`/auth/getemail/${value}`);
-
-    console.log(fetchUserInfo);
-    // console.log(result.data.user[0]._id);
-    const { data } = fetchUserInfo;
-    const { user } = data;
-
-    let newUserData = {};
-
-    user.forEach((cData) => {
-      newUserData = {
-        joindate: cData.word,
-        email: cData.email,
-        adminId: cData.adminId,
-        _id: cData._id,
-      };
-    });
-
-    // console.log(newUserData);
-    setUserData(newUserData);
-
-    const fetchCustomerInfo = await axios.post(
-      `/customerinfo/getcustomer/${fetchUserInfo.data.user[0].adminId}`
-    );
-
-    // console.log(fetchCustomerInfo);
-
-    const cust = fetchCustomerInfo.data;
-
-    console.log(cust.customer_info);
-    console.log(cust.count);
-    setUserData2(cust.customer_info);
-  };
-
-  useEffect(() => {
-    readData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { userData, isFetching } = useContext(AuthApi);
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
-      >
-        <Toolbar className={classes.toolbar}>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            className={clsx(
-              classes.menuButton,
-              open && classes.menuButtonHidden
-            )}
+    <Fragment>
+      {isFetching ? (
+        <div className={classes.root}>
+          <CssBaseline />
+          <AppBar
+            position="absolute"
+            className={clsx(classes.appBar, open && classes.appBarShift)}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            component="h1"
-            variant="h6"
-            color="inherit"
-            noWrap
-            className={classes.title}
-          >
-            Dashboard {today}
-          </Typography>
+            <Toolbar className={classes.toolbar}>
+              <IconButton
+                edge="start"
+                color="inherit"
+                aria-label="open drawer"
+                onClick={handleDrawerOpen}
+                className={clsx(
+                  classes.menuButton,
+                  open && classes.menuButtonHidden
+                )}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Typography
+                component="h1"
+                variant="h6"
+                color="inherit"
+                noWrap
+                className={classes.title}
+              >
+                Dashboard {today}
+              </Typography>
 
-          <IconButton color="inherit" onClick={refresh}>
-            <RefreshIcon />
-          </IconButton>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
-          <ToggleMenu email={userData.email} adminId={userData.adminId} />
-        </Toolbar>
-      </AppBar>
-      <Drawer
-        variant="persistent"
-        anchor="left"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
-      >
-        <div className={classes.toolbarIcon}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
+              <IconButton color="inherit" onClick={refresh}>
+                <RefreshIcon />
+              </IconButton>
+              <IconButton color="inherit">
+                <Badge badgeContent={4} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+              <ToggleMenu />
+            </Toolbar>
+          </AppBar>
+
+          <Drawer
+            variant="temporary"
+            anchor="left"
+            classes={{
+              paper: clsx(
+                classes.drawerPaper,
+                !open && classes.drawerPaperClose
+              ),
+            }}
+            open={open}
+          >
+            <div className={classes.toolbarIcon}>
+              <IconButton onClick={handleDrawerClose}>
+                <ChevronLeftIcon />
+              </IconButton>
+            </div>
+
+            <DrawerHeader email={userData.email} />
+            <DrawerContent />
+          </Drawer>
+
+          <main
+            className={clsx(classes.content, {
+              [classes.contentShift]: open,
+            })}
+          >
+            <div className={classes.appBarSpacer} />
+            <PageRoute />
+          </main>
         </div>
-
-        <DrawerHeader email={userData.email} />
-        <DrawerContent />
-      </Drawer>
-      {/* <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <TablePage data={userData2} />
-      </main> */}
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: open,
-        })}
-      >
-        <div className={classes.appBarSpacer} />
-        <TablePage data={userData2} />
-      </main>
-    </div>
+      ) : (
+        <div className="col spinner_item p-5">
+          <Loader type="Bars" color="#00BFFF" height={100} width={100} />
+          <p>Loading...</p>
+        </div>
+      )}
+    </Fragment>
   );
 }
