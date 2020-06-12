@@ -25,11 +25,11 @@ import PageRoute from "./PageRoute";
 const m = moment();
 const today = m.format("LL");
 
-function refresh() {
-  setTimeout(function () {
-    window.location.reload();
-  }, 100);
-}
+// function refresh() {
+//   setTimeout(function () {
+//     window.location.reload();
+//   }, 100);
+// }
 
 const drawerWidth = 240;
 
@@ -144,6 +144,7 @@ export default function Dashboard2() {
   //get user and customer api
   const [userData, setUserData] = useState({});
   const [customerData, setCustomerData] = useState([]);
+  const [customerCount, setCustomerCount] = useState();
   const [isFetching, setIsFetching] = useState(false);
 
   const readData = async () => {
@@ -158,7 +159,7 @@ export default function Dashboard2() {
 
     user.forEach((cData) => {
       newUserData = {
-        joindate: cData.word,
+        joindate: cData.joindate,
         email: cData.email,
         adminId: cData.adminId,
         _id: cData._id,
@@ -179,6 +180,7 @@ export default function Dashboard2() {
     // console.log(cust.customer_info);
     // console.log(cust.count);
     setCustomerData(cust.customer_info);
+    setCustomerCount(cust.count);
     setIsFetching(true);
   };
 
@@ -218,17 +220,17 @@ export default function Dashboard2() {
                 noWrap
                 className={classes.title}
               >
-                Dashboard {today}
+                Dashboard
               </Typography>
 
-              <IconButton color="inherit" onClick={refresh}>
+              {/* <IconButton color="inherit" onClick={refresh}>
                 <RefreshIcon />
-              </IconButton>
-              <IconButton color="inherit">
+              </IconButton> */}
+              {/* <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
               <ToggleMenu />
             </Toolbar>
           </AppBar>
@@ -250,7 +252,11 @@ export default function Dashboard2() {
               </IconButton>
             </div>
 
-            <DrawerHeader email={userData.email} />
+            <DrawerHeader
+              email={userData.email}
+              joindate={moment(userData.joindate).format("LL")}
+              id={userData._id}
+            />
             <DrawerContent />
           </Drawer>
 
@@ -260,7 +266,12 @@ export default function Dashboard2() {
             })}
           >
             <div className={classes.appBarSpacer} />
-            <PageRoute customerdata={customerData} userdata={userData} />
+            <PageRoute
+              customerdata={customerData}
+              userdata={userData}
+              customercount={customerCount}
+              momentdate={today}
+            />
           </main>
         </div>
       ) : (

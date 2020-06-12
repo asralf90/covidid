@@ -11,19 +11,20 @@ import { NavLink } from "react-router-dom";
 
 const list = [
   {
-    primaryText: "Customer Info",
+    primaryText: "Check-In Info",
     icon: "backup_table",
     routeName: "/dashboard",
+  },
+  {
+    primaryText: "Chart",
+    icon: "bar_chart",
+    routeName: "/chart",
   },
   {
     primaryText: "QR Code",
     icon: "qr_code",
     routeName: "/qr",
   },
-  // {
-  //   primaryText: "Starred",
-  //   icon: "star",
-  // },
   // {
   //   primaryText: "Recent",
   //   icon: "schedule",

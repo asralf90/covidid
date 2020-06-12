@@ -178,14 +178,13 @@ export default function CheckIn() {
               Check-In
             </Button>
           </form>
+          <Box mt={5}>
+            <Copyright />
+          </Box>
         </div>
       ) : (
         <AfterSubmission />
       )}
-
-      <Box mt={5}>
-        <Copyright />
-      </Box>
     </Container>
   );
 }

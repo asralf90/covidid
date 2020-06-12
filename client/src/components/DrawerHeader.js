@@ -4,7 +4,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 
-const DrawerHeader = ({ collapsed, email }) => (
+const DrawerHeader = ({ collapsed, email, joindate, id }) => (
   <>
     <div
       style={{
@@ -32,7 +32,10 @@ const DrawerHeader = ({ collapsed, email }) => (
       <Typography color={"textSecondary"} noWrap gutterBottom>
         {email}
       </Typography>
-      <Typography color={"textSecondary"}>Date Joined : June 2020</Typography>
+      <Typography color={"textSecondary"} noWrap gutterBottom>
+        ID : {id}
+      </Typography>
+      <Typography color={"textSecondary"}>Joined : {joindate}</Typography>
     </div>
     <Divider />
   </>
