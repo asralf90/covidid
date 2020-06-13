@@ -236,7 +236,7 @@ export default function Dashboard2() {
           </AppBar>
 
           <Drawer
-            variant="temporary"
+            variant="persistent" //persistent,permanent,temporary
             anchor="left"
             classes={{
               paper: clsx(
