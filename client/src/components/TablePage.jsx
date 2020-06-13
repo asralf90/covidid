@@ -25,7 +25,8 @@ export default function TablePage({ customerdata }) {
               { title: "Customer Name", field: "fullname" },
               { title: "Phone No.", field: "phone", type: "string" },
               { title: "Address", field: "address" },
-              { title: "Check-In Date", field: "updated", type: "datetime" }, //Data type: 'boolean', 'numeric', 'date', 'datetime', 'time', 'currency'
+              { title: "Date", field: "updated", type: "date" }, //Data type: 'boolean', 'numeric', 'date', 'datetime', 'time', 'currency'
+              { title: "Time", field: "updated", type: "time" },
             ]}
             // data={[
             //   // {
@@ -37,7 +38,7 @@ export default function TablePage({ customerdata }) {
             //   // },
             // ]}
             data={customerdata}
-            title="Customer Information"
+            title="Check-In Information"
             options={{
               exportButton: true,
               filtering: true,

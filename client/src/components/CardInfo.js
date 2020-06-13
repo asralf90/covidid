@@ -15,25 +15,35 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   fixedHeight: {
-    height: 240,
+    height: 150,
   },
 }));
 
-export default function CardInfo({ customercount, momentdate }) {
+export default function CardInfo({ customercount, momentdate, title }) {
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
     <Fragment>
       <Paper className={fixedHeightPaper}>
-        <Typography component="h2" variant="h6" color="primary" gutterBottom>
-          Total No. of Check-Ins
+        <Typography
+          component="h2"
+          variant="h6"
+          color="primary"
+          gutterBottom
+          align="center"
+        >
+          {title}
         </Typography>
-        <Typography component="p" variant="h4">
+        <Typography component="p" variant="h4" align="center">
           {customercount}
         </Typography>
-        <Typography color="textSecondary" className={classes.context}>
+        {/* <Typography
+          color="textSecondary"
+          className={classes.context}
+          align="center"
+        >
           as of {momentdate}
-        </Typography>
+        </Typography> */}
       </Paper>
     </Fragment>
   );
