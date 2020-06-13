@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,6 +14,12 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Copyright from "./Copyright";
 import AuthApi from "../utils/createContext";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 // We can use inline-style
 const style = {
@@ -48,7 +54,16 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const { handleOnChange, handleSignIn } = useContext(AuthApi);
+  const { handleOnChange, handleSignIn, auth, msg, open, setOpen } = useContext(
+    AuthApi
+  );
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -106,6 +121,13 @@ export default function SignIn() {
             </Grid>
           </Grid>
         </form>
+        {!auth ? (
+          <Snackbar open={open} autoHideDuration={2000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="info">
+              {msg}
+            </Alert>
+          </Snackbar>
+        ) : null}
       </div>
       <Box mt={8}>
         <Copyright />

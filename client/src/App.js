@@ -5,10 +5,11 @@ import AuthApi from "./utils/createContext";
 import { hasSignned, signin, signup, signout } from "./api/auth-api";
 import useStateWithLocalStorage from "./utils/customLocalStorageHooks";
 import { v4 as uuid } from "uuid";
-import axios from "axios";
 
 export default function App() {
   const [auth, setAuth] = useState(false);
+  const [msg, setMsg] = useState("");
+  const [open, setOpen] = useState(false);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const joindate = new Date();
@@ -31,7 +32,9 @@ export default function App() {
     if (res.data.auth) {
       setAuth(true);
     }
-    //console.log(res);
+    setMsg(res.data.message);
+    setOpen(true);
+    // console.log(res);
   };
 
   const handleLogout = async () => {
@@ -39,6 +42,7 @@ export default function App() {
     const localStorageKey = "myValueInLocalStorage";
     localStorage.removeItem(localStorageKey);
     setAuth(res.data.auth);
+    setMsg(res.data.message);
   };
 
   const handleCreateUserAccount = async (e) => {
@@ -54,7 +58,7 @@ export default function App() {
     if (res.data.auth) {
       setAuth(true);
     }
-    //console.log(res);
+    // console.log(res);
   };
 
   const readSession = async () => {
@@ -85,6 +89,9 @@ export default function App() {
         email,
         password,
         value,
+        msg,
+        open,
+        setOpen,
       }}
     >
       <Router>

@@ -115,6 +115,7 @@ router.get("/signout", (req, res) => {
   req.session.destroy(); //destroys session
   res.json({
     auth: false,
+    message: "You have successfully logged out",
   });
 });
 

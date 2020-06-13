@@ -14,8 +14,6 @@ const useStyles = makeStyles((theme) => ({
 export default function TablePage({ customerdata }) {
   const classes = useStyles();
 
-  const { customerData } = useContext(AuthApi);
-
   return (
     <div>
       <Container maxWidth="lg" className={classes.container}>
