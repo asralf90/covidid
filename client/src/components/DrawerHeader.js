@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 // import PropTypes from "prop-types";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
+import AuthApi from "../utils/createContext";
 
-const DrawerHeader = ({ collapsed, email, joindate, id }) => (
-  <>
+export default function DrawerHeader({ collapsed }) {
+  const { value } = useContext(AuthApi);
+  return (
     <div
       style={{
         padding: collapsed ? 8 : 16,
@@ -30,22 +32,13 @@ const DrawerHeader = ({ collapsed, email, joindate, id }) => (
         Danial Asraf
       </Typography>
       <Typography color={"textSecondary"} noWrap gutterBottom>
-        {email}
+        {value}
       </Typography>
-      <Typography color={"textSecondary"} noWrap gutterBottom>
+      {/* <Typography color={"textSecondary"} noWrap gutterBottom>
         ID : {id}
-      </Typography>
-      <Typography color={"textSecondary"}>Joined : {joindate}</Typography>
+      </Typography> */}
+      {/* <Typography color={"textSecondary"}>Joined : {joindate}</Typography> */}
+      <Divider />
     </div>
-    <Divider />
-  </>
-);
-
-// NavHeaderEx.propTypes = {
-//   collapsed: PropTypes.bool
-// };
-// NavHeaderEx.defaultProps = {
-//   collapsed: false
-// };
-
-export default DrawerHeader;
+  );
+}

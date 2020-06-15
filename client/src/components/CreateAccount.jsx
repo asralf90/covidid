@@ -21,6 +21,9 @@ import "../styles.css";
 
 import AuthApi from "../utils/createContext";
 
+import Paper from "@material-ui/core/Paper";
+import { Helmet } from "react-helmet";
+
 // We can use inline-style
 const style = {
   background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
@@ -35,6 +38,7 @@ const style = {
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
+    padding: theme.spacing(5),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -66,62 +70,69 @@ export default function CreateAccount() {
 
   const { handleOnChange, handleCreateUserAccount } = useContext(AuthApi);
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          User Account Registration
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={handleOnChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={handleOnChange}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            style={style}
-            className={classes.submit}
-            onClick={handleCreateUserAccount}
-          >
-            Create Account
-          </Button>
-          <Grid container justify="flex-end">
-            <Grid item>
-              <Link href="/signin" variant="body2">
-                Already have an account? Sign in
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
-    </Container>
+    <div>
+      <Helmet>
+        <style>{`body{background-color:#9370DB}`}</style>
+      </Helmet>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Paper>
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              User Account Registration
+            </Typography>
+            <form className={classes.form} noValidate>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={handleOnChange}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onChange={handleOnChange}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                style={style}
+                className={classes.submit}
+                onClick={handleCreateUserAccount}
+              >
+                Create Account
+              </Button>
+              <Grid container justify="flex-end">
+                <Grid item>
+                  <Link href="/" variant="body2">
+                    Already have an account? Sign in
+                  </Link>
+                </Grid>
+              </Grid>
+            </form>
+          </div>
+        </Paper>
+        <Box mt={8}>
+          <Copyright />
+        </Box>
+      </Container>
+    </div>
   );
 }

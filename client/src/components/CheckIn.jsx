@@ -56,7 +56,8 @@ const useStyles = makeStyles((theme) => ({
 export default function CheckIn() {
   const classes = useStyles();
   // const { setAuth } = useContext(AuthApi);
-  const [auth, setAuth] = useState(true);
+  // const [auth, setAuth] = useState(true);
+  const [show, setShow] = useState(true);
   const [fullname, setFullname] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -108,8 +109,9 @@ export default function CheckIn() {
     console.log(res);
 
     const submission = await submitted({ adminId });
-    if (submission.data.auth) {
-      setAuth(false);
+    if (submission.data.showmessage) {
+      // setAuth(false);
+      setShow(false);
     }
     console.log(submission);
   };
@@ -117,7 +119,7 @@ export default function CheckIn() {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      {auth ? (
+      {show ? (
         <div className={classes.paper}>
           <Avatar className={classes.avatar}>
             <PermContactCalendarIcon />

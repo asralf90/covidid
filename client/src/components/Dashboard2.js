@@ -11,16 +11,16 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
-import RefreshIcon from "@material-ui/icons/Refresh";
-import Badge from "@material-ui/core/Badge";
-import NotificationsIcon from "@material-ui/icons/Notifications";
+// import RefreshIcon from "@material-ui/icons/Refresh";
+// import Badge from "@material-ui/core/Badge";
+// import NotificationsIcon from "@material-ui/icons/Notifications";
 import ToggleMenu from "./ToggleMenu";
 import Loader from "./Loader";
 import axios from "axios";
 import AuthApi from "../utils/createContext";
 import moment from "moment";
 import PageRoute from "./PageRoute";
-// import DataApi from "../utils/createContext";
+import DataApi from "../utils/createContext";
 
 const m = moment();
 const today = m.format("LL");
@@ -95,11 +95,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: "100vh",
-    overflow: "auto",
-  },
+  // content: {
+  //   flexGrow: 1,
+  //   height: "100vh",
+  //   overflow: "auto",
+  // },
   paper: {
     padding: theme.spacing(2),
     display: "flex",
@@ -259,20 +259,30 @@ export default function Dashboard2() {
             />
             <DrawerContent />
           </Drawer>
-
-          <main
-            className={clsx(classes.content, {
-              [classes.contentShift]: open,
-            })}
+          <DataApi.Provider
+            value={{
+              customerData,
+              customerCount,
+              userData,
+              isFetching,
+              readData,
+            }}
           >
-            <div className={classes.appBarSpacer} />
-            <PageRoute
-              customerdata={customerData}
-              userdata={userData}
-              customercount={customerCount}
-              momentdate={today}
-            />
-          </main>
+            <main
+              className={clsx(classes.content, {
+                [classes.contentShift]: open,
+              })}
+            >
+              <div className={classes.appBarSpacer} />
+
+              <PageRoute
+                customerdata={customerData}
+                userdata={userData}
+                customercount={customerCount}
+                momentdate={today}
+              />
+            </main>
+          </DataApi.Provider>
         </div>
       ) : (
         <Loader type={"Bars"} color={"#9370DB"} />

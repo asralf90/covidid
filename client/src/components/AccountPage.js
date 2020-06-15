@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Paper from "@material-ui/core/Paper";
+import EditIcon from "@material-ui/icons/Edit";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,6 +37,15 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
     marginRight: theme.spacing(3),
   },
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+  },
+  large: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 export default function AccountPage({ userdata }) {
@@ -46,15 +56,17 @@ export default function AccountPage({ userdata }) {
   const [disabled, setDisabled] = useState(true);
   const textRef = useRef(null);
 
-  const handleFocus = () => {
-    textRef.current.focus();
-  };
-
   const handleOnChange = (e) => {
     if (e.target.name === "accountname") {
       setAccountName(e.target.value);
     }
   };
+
+  useEffect(() => {
+    if (!disabled) {
+      textRef.current.focus();
+    }
+  }, [disabled]);
 
   return (
     <Container component="main">
@@ -62,7 +74,7 @@ export default function AccountPage({ userdata }) {
       <Paper>
         <div className={classes.paper}>
           <Avatar
-            className={classes.avatar}
+            className={(classes.avatar, classes.large)}
             src="https://3.bp.blogspot.com/-g0xDCbB8zLQ/Toxm5r7KzBI/AAAAAAAAAF8/C7VdGxUJPdc/s320/daniyui.jpg"
           >
             <PermContactCalendarIcon />
@@ -88,7 +100,7 @@ export default function AccountPage({ userdata }) {
                   name="accountname"
                   variant="outlined"
                   fullWidth
-                  autoFocus
+                  //   autoFocus
                   onChange={handleOnChange}
                   disabled={disabled}
                   value={accountName}
@@ -134,10 +146,9 @@ export default function AccountPage({ userdata }) {
               className={(classes.submit, classes.button)}
               onClick={() => {
                 setDisabled(false);
-                handleFocus();
-                // textRef.current.focus();
               }}
             >
+              <EditIcon />
               Edit Profile
             </Button>
             <Button

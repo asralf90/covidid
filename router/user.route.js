@@ -157,6 +157,7 @@ router.post("/submitted", async (req, res) => {
       message: "Form successfully submitted",
       auth: true,
       adminId: user.adminId,
+      showmessage: true,
     });
   } else {
     res.json({

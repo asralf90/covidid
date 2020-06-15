@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Line } from "react-chartjs-2";
 // import "../styles.css";
-// import Paper from "@material-ui/core/Paper";
+import Paper from "@material-ui/core/Paper";
 import clsx from "clsx";
 import Typography from "@material-ui/core/Typography";
 
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
   },
   paper: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(8),
     display: "flex",
     overflow: "auto",
     flexDirection: "column",
@@ -66,20 +66,20 @@ export default function LineChart({ title }) {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   return (
     <Fragment>
-      {/* <Paper> */}
-      <Typography
-        component="h2"
-        variant="h6"
-        color="primary"
-        gutterBottom
-        align="center"
-      >
-        {title}
-      </Typography>
-      {/* <article className="canvas-container"> */}
-      <Line data={data} />
-      {/* </article> */}
-      {/* </Paper> */}
+      <Paper>
+        <Typography
+          component="h2"
+          variant="h6"
+          color="primary"
+          gutterBottom
+          align="center"
+        >
+          {title}
+        </Typography>
+        {/* <article className="canvas-container"> */}
+        <Line data={data} />
+        {/* </article> */}
+      </Paper>
     </Fragment>
   );
 }

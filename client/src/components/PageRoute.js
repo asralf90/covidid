@@ -1,7 +1,7 @@
 import React from "react";
 import TablePage from "./TablePage";
 import ChartPage from "./ChartPage";
-import Settings from "./Settings";
+// import Settings from "./Settings";
 import AccountPage from "./AccountPage";
 import { Route, Switch } from "react-router-dom";
 import QRPage from "./QRPage";
