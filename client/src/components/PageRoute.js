@@ -10,6 +10,7 @@ export default function PageRoute({
   userdata,
   customerdata,
   customercount,
+  customerchart,
   momentdate,
 }) {
   return (
@@ -28,6 +29,7 @@ export default function PageRoute({
               {...props}
               customercount={customercount}
               momentdate={momentdate}
+              customerchart={customerchart}
             />
           )}
         />

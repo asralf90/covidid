@@ -145,6 +145,7 @@ export default function Dashboard2() {
   const [userData, setUserData] = useState({});
   const [customerData, setCustomerData] = useState([]);
   const [customerCount, setCustomerCount] = useState();
+  const [customerChart, setCustomerChart] = useState();
   const [isFetching, setIsFetching] = useState(false);
 
   const readData = async () => {
@@ -180,7 +181,16 @@ export default function Dashboard2() {
     // console.log(cust.customer_info);
     // console.log(cust.count);
     setCustomerData(cust.customer_info);
-    setCustomerCount(cust.count);
+    // setCustomerCount(cust.count);
+
+    const fetchCustomerChartInfo = await axios.post(
+      `/customerinfo/getcustomerchart/${fetchUserInfo.data.user[0].adminId}`
+    );
+
+    const custchart = fetchCustomerChartInfo.data;
+
+    setCustomerChart(custchart.customer_info[0].today[0].count);
+    setCustomerCount(custchart.customer_info[0].all[0].count);
     setIsFetching(true);
   };
 
@@ -236,7 +246,7 @@ export default function Dashboard2() {
           </AppBar>
 
           <Drawer
-            variant="persistent" //persistent,permanent,temporary
+            variant="responsive" //persistent,permanent,temporary
             anchor="left"
             classes={{
               paper: clsx(
@@ -263,6 +273,7 @@ export default function Dashboard2() {
             value={{
               customerData,
               customerCount,
+              customerChart,
               userData,
               isFetching,
               readData,
@@ -279,6 +290,7 @@ export default function Dashboard2() {
                 customerdata={customerData}
                 userdata={userData}
                 customercount={customerCount}
+                customerchart={customerChart}
                 momentdate={today}
               />
             </main>

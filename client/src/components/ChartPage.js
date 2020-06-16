@@ -3,13 +3,17 @@ import Grid from "@material-ui/core/Grid";
 import CardInfo from "./CardInfo";
 import LineChart from "./LineChart";
 
-export default function ChartPage({ customercount, momentdate }) {
+export default function ChartPage({
+  customercount,
+  momentdate,
+  customerchart,
+}) {
   return (
     <div>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} md={3}>
           <CardInfo
-            customercount={customercount}
+            customercount={customerchart}
             momentdate={momentdate}
             title="Today"
           />

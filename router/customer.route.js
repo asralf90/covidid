@@ -39,6 +39,7 @@ router.post("/add", (req, res, next) => {
 router.post("/getcustomer/:adminId", (req, res, next) => {
   const adminId = req.params.adminId;
   Customer.find({ adminId: adminId })
+    .sort({ updated: "descending" })
     .exec()
     .then((docs) => {
       const response = {
@@ -51,6 +52,62 @@ router.post("/getcustomer/:adminId", (req, res, next) => {
             updated: doc.updated,
             adminId: doc.adminId,
             _id: doc._id,
+          };
+        }),
+      };
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
+const start = new Date();
+start.setHours(0, 0, 0, 0);
+const end = new Date();
+end.setHours(23, 59, 59, 999);
+
+//if use moment()
+// const start = moment().startOf("day");
+// const end = moment().endOf("day");
+
+//get chart info
+router.post("/getcustomerchart/:adminId", (req, res, next) => {
+  const adminId = req.params.adminId;
+  Customer.aggregate([
+    {
+      $facet: {
+        today: [
+          {
+            $match: {
+              $and: [
+                { adminId: adminId },
+                { updated: { $gte: start, $lte: end } },
+              ],
+            },
+          },
+          { $count: "count" },
+        ],
+        // lastMonth: [
+        //   { $match: { updated: { $gte: lastMonthFromToday, $lte: today } } },
+        //   { $count: "count" },
+        // ],
+        all: [{ $match: { adminId: adminId } }, { $count: "count" }],
+      },
+    },
+  ])
+    // .sort({ updated: "descending" })
+    // .exec()
+    .then((docs) => {
+      const response = {
+        count: docs.length,
+        customer_info: docs.map((doc) => {
+          return {
+            today: doc.today,
+            all: doc.all,
           };
         }),
       };
