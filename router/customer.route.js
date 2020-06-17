@@ -66,9 +66,14 @@ router.post("/getcustomer/:adminId", (req, res, next) => {
 });
 
 const start = new Date();
-start.setHours(0, 0, 0, 0);
+start.setHours(0, 0, 0, 0); //milliseconds 00:00:00.000
 const end = new Date();
-end.setHours(23, 59, 59, 999);
+end.setHours(23, 59, 59, 999); //milliseconds 23:59:59.999
+
+const now = new Date();
+const lastOneHr = new Date(now.getTime() - 60 * 60 * 1000);
+// const now = new Date().getTime();
+// const lastOneHr = new Date().getTime() - 60 * 60 * 1000;
 
 //if use moment()
 // const start = moment().startOf("day");
@@ -91,6 +96,18 @@ router.post("/getcustomerchart/:adminId", (req, res, next) => {
           },
           { $count: "count" },
         ],
+        lastHour: [
+          {
+            $match: {
+              $and: [
+                { adminId: adminId },
+                { updated: { $gte: lastOneHr, $lte: now } },
+                // { updated: { $gte: new Date(lastOneHr), $lte: new Date(now) } },
+              ],
+            },
+          },
+          { $count: "count" },
+        ],
         // lastMonth: [
         //   { $match: { updated: { $gte: lastMonthFromToday, $lte: today } } },
         //   { $count: "count" },
@@ -106,6 +123,7 @@ router.post("/getcustomerchart/:adminId", (req, res, next) => {
         count: docs.length,
         customer_info: docs.map((doc) => {
           return {
+            lastHour: doc.lastHour,
             today: doc.today,
             all: doc.all,
           };

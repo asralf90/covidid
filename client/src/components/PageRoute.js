@@ -11,6 +11,7 @@ export default function PageRoute({
   customerdata,
   customercount,
   customerchart,
+  customerlasthour,
   momentdate,
 }) {
   return (
@@ -30,6 +31,7 @@ export default function PageRoute({
               customercount={customercount}
               momentdate={momentdate}
               customerchart={customerchart}
+              customerlasthour={customerlasthour}
             />
           )}
         />

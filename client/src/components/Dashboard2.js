@@ -144,8 +144,9 @@ export default function Dashboard2() {
   //get user and customer api
   const [userData, setUserData] = useState({});
   const [customerData, setCustomerData] = useState([]);
-  const [customerCount, setCustomerCount] = useState();
-  const [customerChart, setCustomerChart] = useState();
+  const [customerCount, setCustomerCount] = useState(0);
+  const [customerChart, setCustomerChart] = useState(0);
+  const [customerLastHour, setCustomerLastHour] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
 
   const readData = async () => {
@@ -178,7 +179,7 @@ export default function Dashboard2() {
 
     const cust = fetchCustomerInfo.data;
 
-    // console.log(cust.customer_info);
+    //console.log(cust.customer_info);
     // console.log(cust.count);
     setCustomerData(cust.customer_info);
     // setCustomerCount(cust.count);
@@ -188,9 +189,31 @@ export default function Dashboard2() {
     );
 
     const custchart = fetchCustomerChartInfo.data;
+    const tno = custchart.customer_info[0].today;
+    const lastoneno = custchart.customer_info[0].lastHour;
+    const allno = custchart.customer_info[0].all;
 
-    setCustomerChart(custchart.customer_info[0].today[0].count);
-    setCustomerCount(custchart.customer_info[0].all[0].count);
+    if (!tno.length) {
+      setCustomerChart(0);
+      // console.log(tno.length);
+    } else {
+      setCustomerChart(tno[0].count);
+    }
+
+    if (!lastoneno.length) {
+      setCustomerLastHour(0);
+      // console.log(lastoneno.length);
+    } else {
+      setCustomerLastHour(lastoneno[0].count);
+    }
+
+    if (!allno.length) {
+      setCustomerCount(0);
+      // console.log(allno.length);
+    } else {
+      setCustomerCount(allno[0].count);
+    }
+
     setIsFetching(true);
   };
 
@@ -274,6 +297,7 @@ export default function Dashboard2() {
               customerData,
               customerCount,
               customerChart,
+              customerLastHour,
               userData,
               isFetching,
               readData,
@@ -291,6 +315,7 @@ export default function Dashboard2() {
                 userdata={userData}
                 customercount={customerCount}
                 customerchart={customerChart}
+                customerlasthour={customerLastHour}
                 momentdate={today}
               />
             </main>
