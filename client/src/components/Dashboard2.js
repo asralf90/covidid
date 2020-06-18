@@ -147,6 +147,7 @@ export default function Dashboard2() {
   const [customerCount, setCustomerCount] = useState(0);
   const [customerChart, setCustomerChart] = useState(0);
   const [customerLastHour, setCustomerLastHour] = useState(0);
+  const [lineData, setLineData] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
 
   const readData = async () => {
@@ -192,6 +193,15 @@ export default function Dashboard2() {
     const tno = custchart.customer_info[0].today;
     const lastoneno = custchart.customer_info[0].lastHour;
     const allno = custchart.customer_info[0].all;
+
+    const fetchCustomerLineInfo = await axios.post(
+      `/customerinfo/getcustomerline/${fetchUserInfo.data.user[0].adminId}`
+    );
+
+    const line = fetchCustomerLineInfo.data.customer_info;
+
+    setLineData(line);
+    console.log(line);
 
     if (!tno.length) {
       setCustomerChart(0);
@@ -298,6 +308,7 @@ export default function Dashboard2() {
               customerCount,
               customerChart,
               customerLastHour,
+              lineData,
               userData,
               isFetching,
               readData,
@@ -317,6 +328,7 @@ export default function Dashboard2() {
                 customerchart={customerChart}
                 customerlasthour={customerLastHour}
                 momentdate={today}
+                linedata={lineData}
               />
             </main>
           </DataApi.Provider>

@@ -8,6 +8,7 @@ export default function ChartPage({
   momentdate,
   customerchart,
   customerlasthour,
+  linedata,
 }) {
   return (
     <div>
@@ -41,6 +42,7 @@ export default function ChartPage({
             // height={50}
             options={{ maintainAspectRatio: false }}
             title="No. of Check-In"
+            linedata={linedata}
           />
         </Grid>
       </Grid>

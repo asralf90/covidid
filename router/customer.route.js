@@ -90,7 +90,7 @@ router.post("/getcustomerchart/:adminId", (req, res, next) => {
             $match: {
               $and: [
                 { adminId: adminId },
-                { updated: { $gte: start, $lte: end } },
+                { updated: { $gte: new Date(start), $lte: new Date(end) } },
               ],
             },
           },
@@ -108,16 +108,10 @@ router.post("/getcustomerchart/:adminId", (req, res, next) => {
           },
           { $count: "count" },
         ],
-        // lastMonth: [
-        //   { $match: { updated: { $gte: lastMonthFromToday, $lte: today } } },
-        //   { $count: "count" },
-        // ],
         all: [{ $match: { adminId: adminId } }, { $count: "count" }],
       },
     },
   ])
-    // .sort({ updated: "descending" })
-    // .exec()
     .then((docs) => {
       const response = {
         count: docs.length,
@@ -126,6 +120,71 @@ router.post("/getcustomerchart/:adminId", (req, res, next) => {
             lastHour: doc.lastHour,
             today: doc.today,
             all: doc.all,
+          };
+        }),
+      };
+      res.status(200).json(response);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
+//get chart info
+router.post("/getcustomerline/:adminId", (req, res, next) => {
+  const adminId = req.params.adminId;
+  Customer.aggregate([
+    //   {
+    //     daydata: [
+    //       {
+    //         $group: {
+    //           adminId: {
+    //             month: { $month: "$updated" },
+    //             day: { $dayOfMonth: "$updated" },
+    //             year: { $year: "$updated" },
+    //           },
+    //         },
+    //       },
+    //       { count: { $sum: 1 } },
+    //     ],
+    //   },
+    // ])
+
+    //   {
+    //     daydata: [
+    //       {
+    //         $match: { adminId: adminId },
+    //       },
+    //       {
+    //         $group: {
+    //           _id: { $dateToString: { format: "%Y-%m-%d", date: "$updated" } },
+    //           count: { $sum: 1 },
+    //         },
+    //       },
+    //       { $sort: { _id: 1 } },
+    //     ],
+    //   },
+    // ])
+
+    { $match: { adminId: adminId } },
+    {
+      $group: {
+        _id: { $dateToString: { format: "%Y-%m-%d", date: "$updated" } },
+        count: { $sum: 1 },
+      },
+    },
+    { $sort: { _id: 1 } },
+  ])
+
+    .then((docs) => {
+      const response = {
+        count: docs.length,
+        customer_info: docs.map((doc) => {
+          return {
+            doc,
           };
         }),
       };

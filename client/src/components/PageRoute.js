@@ -13,6 +13,7 @@ export default function PageRoute({
   customerchart,
   customerlasthour,
   momentdate,
+  linedata,
 }) {
   return (
     <div>
@@ -32,6 +33,7 @@ export default function PageRoute({
               momentdate={momentdate}
               customerchart={customerchart}
               customerlasthour={customerlasthour}
+              linedata={linedata}
             />
           )}
         />
